@@ -30,3 +30,19 @@ def logger_with_logs(logger):
     logger.log("READ",   "/vol/data", "success", user="uriel")
     logger.log("DELETE", "/vol/data", "failed",  user="admin", message="Permission denied")
     return logger
+
+from audit.reports import AuditReporter
+
+@pytest.fixture
+def reporter(db_conn):
+    return AuditReporter(conn=db_conn)
+
+@pytest.fixture
+def reporter_with_logs(reporter, db_conn):
+    logger = AuditLogger(conn=db_conn)
+    logger.log("CREATE", "/vol/data",    "success", user="uriel")
+    logger.log("READ",   "/vol/data",    "success", user="uriel")
+    logger.log("DELETE", "/vol/data",    "failed",  user="admin", message="Permission denied")
+    logger.log("CREATE", "/vol/backup",  "failed",  user="uriel", message="Disk full")
+    logger.log("WRITE",  "/vol/backup",  "failed",  user="admin", message="Disk full")
+    return reporter
