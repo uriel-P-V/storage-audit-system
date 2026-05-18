@@ -28,11 +28,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # Corre los tests
+      # Corre los tests con coverage
       - name: Run tests
-        run: pytest tests/ -v
+        run: pytest tests/ -v --cov=audit --cov-report=term-missing
 
       # Muestra resumen si algo falla
       - name: Test summary
         if: failure()
         run: pytest tests/ -v --tb=long
+
+      # Verifica que coverage sea mayor a 80%
+      - name: Check coverage threshold
+        run: pytest tests/ --cov=audit --cov-fail-under=80
