@@ -1,0 +1,38 @@
+name: Storage Audit Tests
+
+# Paso 1 — cuándo corre
+on:
+  push:
+    branches: [ main, feature/* ]
+  pull_request:
+    branches: [ main ]
+
+# Paso 2 — qué trabajo hace
+jobs:
+  test:
+    name: Run Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      # Descarga el código del repo
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Instala Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Instala dependencias
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Corre los tests
+      - name: Run tests
+        run: pytest tests/ -v
+
+      # Muestra resumen si algo falla
+      - name: Test summary
+        if: failure()
+        run: pytest tests/ -v --tb=long
