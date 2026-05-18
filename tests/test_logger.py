@@ -1,6 +1,6 @@
 import pytest
 from audit.logger import AuditLogger
-
+import os
 
 def test_log_insertion(logger):
     """Verifica que un log se inserta correctamente en la BD."""
@@ -79,3 +79,15 @@ def test_count_logs_by_status(logger_with_logs):
     assert logger_with_logs.count_logs(status="success") == 2
     assert logger_with_logs.count_logs(status="failed") == 1
     assert logger_with_logs.count_logs() == 3
+
+
+def test_get_connection_creates_file(tmp_path):
+    """Verifica que get_connection() crea el archivo de BD correctamente."""
+    from audit.db import get_connection, setup_database
+
+    db_path = str(tmp_path / "test.db")
+    conn = get_connection(db_path)
+    setup_database(conn)
+
+    assert os.path.exists(db_path)
+    conn.close()
