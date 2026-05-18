@@ -1,4 +1,4 @@
-# Storage Audit System
+# Storage Audit System  
 
 A production-inspired storage operation audit system built with Python and SQLite — 
 designed to simulate real QA workflows in enterprise storage environments.
@@ -7,6 +7,12 @@ Tracks every storage operation, classifies failures, and generates audit reports
 for QA teams to identify issues and prioritize fixes.
 
 ---
+
+
+# Storage Audit System
+
+![CI](https://github.com/uriel-P-V/storage-audit-system/actions/workflows/tests.yml/badge.svg)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
 ## Project Structure
  
